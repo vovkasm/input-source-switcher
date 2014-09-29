@@ -25,3 +25,5 @@ source_group(Sources FILES ${APP_SOURCES})
 
 add_executable(input-source-switch ${APP_SOURCES} ${APP_HEADERS})
 target_link_libraries(input-source-switch ${APPKIT_FRAMEWORK} ${CARBON_FRAMEWORK} ${COCOA_FRAMEWORK})
+
+install(TARGETS input-source-switch DESTINATION bin)
