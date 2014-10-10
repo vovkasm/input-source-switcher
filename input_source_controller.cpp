@@ -11,14 +11,17 @@ void
 InputSourceController::showSelected() const {
     TISInputSourceRef is = TISCopyCurrentKeyboardInputSource();
     printInputSourceProperty(is, kTISPropertyInputSourceID);
+    CFRelease(is);  
 }
 
 void
 InputSourceController::listAvailable() const {
-    CFStringRef keys[] = {kTISPropertyInputSourceIsEnabled, kTISPropertyInputSourceIsSelectCapable};
-    CFTypeRef vals[] = {kCFBooleanTrue, kCFBooleanTrue};
-    CFDictionaryRef filterDict = CFDictionaryCreate(NULL, (const void**)keys, (const void**)vals, (CFIndex)2, NULL, NULL);
-    CFArrayRef sourceList = TISCreateInputSourceList(filterDict, false);
+    CFDictionaryWrap filter;
+
+    filter.set(kTISPropertyInputSourceIsEnabled, kCFBooleanTrue);
+    filter.set(kTISPropertyInputSourceIsSelectCapable, kCFBooleanTrue);
+
+    CFArrayRef sourceList = TISCreateInputSourceList(filter.cfDict(), false);
     if (sourceList == NULL)
         return;
 
@@ -26,19 +29,24 @@ InputSourceController::listAvailable() const {
     for (CFIndex i = 0; i < cnt; ++i) {
         TISInputSourceRef inputSource = (TISInputSourceRef)CFArrayGetValueAtIndex(sourceList, i);
         printInputSourceProperty(inputSource, kTISPropertyInputSourceID);
-
+        printInputSourceProperty(inputSource, kTISPropertyInputSourceLanguages);
     }
+
+    CFRelease(sourceList);
 }
 
 void
 InputSourceController::select(const std::string& isId) const {
-    CFStringRef keys[] = {kTISPropertyInputSourceID};
-    CFTypeRef vals[] = {CFStringCreateWithBytes(NULL, (const UInt8*)isId.c_str(), isId.length(), kCFStringEncodingUTF8, FALSE)};
-    CFDictionaryRef filterDict = CFDictionaryCreate(NULL, (const void**)keys, (const void**)vals, (CFIndex)1, NULL, NULL);
-    CFArrayRef sourceList = TISCreateInputSourceList(filterDict, false);
+    CFStringWrap isIdStr(isId);
+    CFDictionaryWrap filter;
+
+    filter.set(kTISPropertyInputSourceID, isIdStr.cfString());
+
+    CFArrayRef sourceList = TISCreateInputSourceList(filter.cfDict(), false);
     if (sourceList != NULL && CFArrayGetCount(sourceList) == 1) {
         TISInputSourceRef is = (TISInputSourceRef)CFArrayGetValueAtIndex(sourceList, 0);
         TISSelectInputSource(is);
+        CFRelease(sourceList);
     }
     else {
         throw program_error(std::string("Error: Cant find input source with id=") + isId);
