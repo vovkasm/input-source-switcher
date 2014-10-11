@@ -1,5 +1,6 @@
 #include "pre.h"
 #include <iostream>
+#include <sstream>
 
 #include "formatters.h"
 #include "input_source_controller.h"
@@ -108,5 +109,43 @@ found:
     CFRelease(sourceList);
 
     return is;
+}
+
+// vim-xkbswitch interface
+extern "C" {
+    static char buffer[1024];
+
+    const char* Xkb_Switch_getXkbLayout(const char* /* unused */) {
+        buffer[0] = '\0';
+        try {
+            InputSourceController ctrl;
+            TISInputSourceRef is = TISCopyCurrentKeyboardInputSource();
+
+            std::ostringstream os;
+            os << InputSourceFormatter(is);
+            CFRelease(is);
+
+            if (os.str().length() < 1024) {
+                char* after_last = std::copy(os.str().begin(), os.str().end(), buffer);
+                *after_last = '\0';
+            }
+        }
+        catch( ... ) {
+        }
+
+        return buffer;
+    }
+
+    const char* Xkb_Switch_setXkbLayout(const char* newgrp) {
+        try {
+            InputSourceController ctrl;
+            std::string is_id(newgrp);
+            ctrl.select(is_id);
+        }
+        catch( ... ) {
+        }
+
+        return NULL;
+    }
 }
 
