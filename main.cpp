@@ -2,9 +2,10 @@
 #include <unistd.h>
 #include <iostream>
 #include <string>
+#include "ils_config.h"
 #include "input_source_controller.h"
 
-enum RunMode { RM_showSelected, RM_listAvailable, RM_showUsage, RM_skip };
+enum RunMode { RM_showSelected, RM_listAvailable, RM_showUsage, RM_showVersion, RM_skip };
 
 int
 main(int argc, char* argv[]) {
@@ -16,10 +17,13 @@ main(int argc, char* argv[]) {
 
     int ch;
 
-    while ((ch = getopt(argc, argv, "hl")) != -1) {
+    while ((ch = getopt(argc, argv, "hlV")) != -1) {
         switch (ch) {
             case 'l':
                 runMode = RM_listAvailable;
+                break;
+            case 'V':
+                runMode = RM_showVersion;
                 break;
             case 'h':
             case '?':
@@ -56,7 +60,10 @@ main(int argc, char* argv[]) {
             ctrl.listAvailable();
             break;
         case RM_showUsage:
-            std::cout << "Usage: input-source-switch [-h] [-l] [<input-source-id>]" << std::endl;
+            std::cout << "Usage: input-source-switch [-hlV] [<input-source-id>]" << std::endl;
+            break;
+        case RM_showVersion:
+            std::cout << "Input Locale Switcher version " << InputLocaleSwitcher_VERSION_MAJOR << "." << InputLocaleSwitcher_VERSION_MINOR << std::endl;
             break;
         case RM_skip:
             break;

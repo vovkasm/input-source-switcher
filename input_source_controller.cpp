@@ -1,9 +1,9 @@
 #include "pre.h"
 #include <iostream>
 
+#include "formatters.h"
 #include "input_source_controller.h"
 #include "utils.h"
-
 
 InputSourceController::InputSourceController() {
     
