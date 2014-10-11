@@ -1,7 +1,9 @@
 #include "pre.h"
+#include <iostream>
+
 #include "input_source_controller.h"
 #include "utils.h"
-#include <iostream>
+
 
 InputSourceController::InputSourceController() {
     
@@ -10,8 +12,8 @@ InputSourceController::InputSourceController() {
 void
 InputSourceController::showSelected() const {
     TISInputSourceRef is = TISCopyCurrentKeyboardInputSource();
-    printInputSourceProperty(is, kTISPropertyInputSourceID);
-    CFRelease(is);  
+    std::cout << InputSourceFormatter(is) << std::endl;
+    CFRelease(is);
 }
 
 void
@@ -27,8 +29,7 @@ InputSourceController::listAvailable() const {
     CFIndex cnt = CFArrayGetCount(sourceList);
     for (CFIndex i = 0; i < cnt; ++i) {
         TISInputSourceRef inputSource = (TISInputSourceRef)CFArrayGetValueAtIndex(sourceList, i);
-        printInputSourceProperty(inputSource, kTISPropertyInputSourceID);
-        printInputSourceProperty(inputSource, kTISPropertyInputSourceLanguages);
+        std::cout << InputSourceFormatter(inputSource) << std::endl;
     }
 
     CFRelease(sourceList);
