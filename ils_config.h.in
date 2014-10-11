@@ -1,5 +1,0 @@
-#pragma once
-
-#define InputLocaleSwitcher_VERSION_MAJOR @InputLocaleSwitcher_VERSION_MAJOR@
-#define InputLocaleSwitcher_VERSION_MINOR @InputLocaleSwitcher_VERSION_MINOR@
-

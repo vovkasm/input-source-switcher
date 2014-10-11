@@ -1,0 +1,5 @@
+#pragma once
+
+#define InputSourceSwitcher_VERSION_MAJOR @InputSourceSwitcher_VERSION_MAJOR@
+#define InputSourceSwitcher_VERSION_MINOR @InputSourceSwitcher_VERSION_MINOR@
+

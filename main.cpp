@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <iostream>
 #include <string>
-#include "ils_config.h"
+#include "issw_config.h"
 #include "input_source_controller.h"
 
 enum RunMode { RM_showSelected, RM_listAvailable, RM_showUsage, RM_showVersion, RM_skip };
@@ -60,10 +60,10 @@ main(int argc, char* argv[]) {
             ctrl.listAvailable();
             break;
         case RM_showUsage:
-            std::cout << "Usage: input-source-switch [-hlV] [<input-source-id>]" << std::endl;
+            std::cout << "Usage: issw [-hlV] [<input-source-id>]" << std::endl;
             break;
         case RM_showVersion:
-            std::cout << "Input Locale Switcher version " << InputLocaleSwitcher_VERSION_MAJOR << "." << InputLocaleSwitcher_VERSION_MINOR << std::endl;
+            std::cout << "Input Source Switcher version " << InputSourceSwitcher_VERSION_MAJOR << "." << InputSourceSwitcher_VERSION_MINOR << std::endl;
             break;
         case RM_skip:
             break;
