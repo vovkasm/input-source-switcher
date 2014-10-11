@@ -18,5 +18,7 @@ public:
 
 private:
     TISInputSourceRef findInputSource(const std::string& name) const;
+    TISInputSourceRef findInputSourceById(const std::string& isId) const;
+    TISInputSourceRef findInputSourceByLang(const std::string& lang) const;
 
 };
