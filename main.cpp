@@ -3,7 +3,6 @@
 #include <iostream>
 #include <string>
 #include "input_source_controller.h"
-#include "utils.h"
 
 enum RunMode { RM_showSelected, RM_listAvailable, RM_showUsage, RM_skip };
 
