@@ -4,6 +4,8 @@ project(InputSourceSwitcher)
 set(InputSourceSwitcher_VERSION_MAJOR 0)
 set(InputSourceSwitcher_VERSION_MINOR 1)
 
+option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+
 find_library(CARBON_FRAMEWORK Carbon)
 if(NOT CARBON_FRAMEWORK)
     message(FATAL_ERROR "Carbon not found")
@@ -19,24 +21,33 @@ configure_file(
 
 include_directories("${PROJECT_BINARY_DIR}")
 
-set(APP_HEADERS
+set(LIB_HEADERS
     formatters.h
     issw_config.h
     input_source_controller.h
     pre.h
     utils.h
     )
-set(APP_SOURCES
+set(LIB_SOURCES
     formatters.cpp
     input_source_controller.cpp
-    main.cpp
     utils.cpp
+    )
+
+set(APP_HEADERS
+    )
+set(APP_SOURCES
+    main.cpp
     )
 
 source_group(Headers FILES ${APP_HEADERS})
 source_group(Sources FILES ${APP_SOURCES})
 
-add_executable(issw ${APP_SOURCES} ${APP_HEADERS})
-target_link_libraries(issw ${APPKIT_FRAMEWORK} ${CARBON_FRAMEWORK} ${COCOA_FRAMEWORK})
+add_library(InputSourceSwitcher ${LIB_SOURCES} ${LIB_HEADERS})
+target_link_libraries(InputSourceSwitcher ${APPKIT_FRAMEWORK} ${CARBON_FRAMEWORK} ${COCOA_FRAMEWORK})
+
+add_executable(issw ${APP_SOURCES} ${APP_HEADERS} ${LIB_HEADERS})
+target_link_libraries(issw InputSourceSwitcher ${APPKIT_FRAMEWORK} ${CARBON_FRAMEWORK} ${COCOA_FRAMEWORK})
 
 install(TARGETS issw DESTINATION bin)
+install(TARGETS InputSourceSwitcher DESTINATION lib)
