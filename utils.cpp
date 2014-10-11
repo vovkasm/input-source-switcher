@@ -38,7 +38,6 @@ printInputSourceProperty(TISInputSourceRef inputSource, CFStringRef property) {
                     }
                     std::cout << '"' << stringFromCFString((CFStringRef)elem) << '"';
                 }
-                CFRelease(elem);
             }
 
         }
