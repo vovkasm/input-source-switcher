@@ -1,4 +1,6 @@
 #pragma once
+#include "pre.h"
+
 #include <string>
 #include <stdexcept>
 
@@ -13,4 +15,8 @@ public:
     void showSelected() const;
     void listAvailable() const;
     void select(const std::string& isId) const;
+
+private:
+    TISInputSourceRef findInputSource(const std::string& name) const;
+
 };

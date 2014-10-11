@@ -37,18 +37,32 @@ InputSourceController::listAvailable() const {
 
 void
 InputSourceController::select(const std::string& isId) const {
-    CFStringWrap isIdStr(isId);
-    CFDictionaryWrap filter;
-
-    filter.set(kTISPropertyInputSourceID, isIdStr.cfString());
-
-    CFArrayRef sourceList = TISCreateInputSourceList(filter.cfDict(), false);
-    if (sourceList != NULL && CFArrayGetCount(sourceList) == 1) {
-        TISInputSourceRef is = (TISInputSourceRef)CFArrayGetValueAtIndex(sourceList, 0);
+    TISInputSourceRef is = findInputSource(isId);
+    if (is != NULL) {
         TISSelectInputSource(is);
-        CFRelease(sourceList);
+        CFRelease(is);
     }
     else {
         throw program_error(std::string("Error: Cant find input source with id=") + isId);
     }
 }
+
+TISInputSourceRef
+InputSourceController::findInputSource(const std::string& name) const {
+    CFStringWrap isName(name);
+    CFDictionaryWrap filter;
+
+    filter.set(kTISPropertyInputSourceID, isName.cfString());
+
+    TISInputSourceRef is = NULL;
+
+    CFArrayRef sourceList = TISCreateInputSourceList(filter.cfDict(), false);
+    if (sourceList != NULL && CFArrayGetCount(sourceList) == 1) {
+        is = (TISInputSourceRef)CFArrayGetValueAtIndex(sourceList, 0);
+        CFRetain(is);
+        CFRelease(sourceList);
+    }
+
+    return is;
+}
+
