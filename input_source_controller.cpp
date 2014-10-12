@@ -125,8 +125,10 @@ extern "C" {
             os << InputSourceFormatter(is);
             CFRelease(is);
 
-            if (os.str().length() < 1024) {
-                char* after_last = std::copy(os.str().begin(), os.str().end(), buffer);
+            const std::string& name = os.str();
+            int len = name.length();
+            if (len < 1024 && len > 0) {
+                char* after_last = std::copy(name.begin(), name.end(), buffer);
                 *after_last = '\0';
             }
         }

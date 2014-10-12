@@ -49,5 +49,8 @@ target_link_libraries(InputSourceSwitcher ${APPKIT_FRAMEWORK} ${CARBON_FRAMEWORK
 add_executable(issw ${APP_SOURCES} ${APP_HEADERS} ${LIB_HEADERS})
 target_link_libraries(issw InputSourceSwitcher ${APPKIT_FRAMEWORK} ${CARBON_FRAMEWORK} ${COCOA_FRAMEWORK})
 
+add_executable(testvim test.c)
+target_link_libraries(testvim InputSourceSwitcher)
+
 install(TARGETS issw DESTINATION bin)
 install(TARGETS InputSourceSwitcher DESTINATION lib)
