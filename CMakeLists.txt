@@ -11,8 +11,7 @@ if(NOT CARBON_FRAMEWORK)
     message(FATAL_ERROR "Carbon not found")
 endif()
 
-find_library(APPKIT_FRAMEWORK AppKit)
-find_library(COCOA_FRAMEWORK Cocoa)
+find_library(COREFOUNDATION_FRAMEWORK CoreFoundation)
 
 configure_file(
     "${PROJECT_SOURCE_DIR}/issw_config.h.in"
@@ -40,10 +39,10 @@ set(APP_SOURCES
     )
 
 add_library(InputSourceSwitcher ${LIB_SOURCES} ${LIB_HEADERS})
-target_link_libraries(InputSourceSwitcher ${APPKIT_FRAMEWORK} ${CARBON_FRAMEWORK} ${COCOA_FRAMEWORK})
+target_link_libraries(InputSourceSwitcher ${COREFOUNDATION_FRAMEWORK} ${CARBON_FRAMEWORK})
 
 add_executable(issw ${APP_SOURCES} ${APP_HEADERS} ${LIB_HEADERS})
-target_link_libraries(issw InputSourceSwitcher ${APPKIT_FRAMEWORK} ${CARBON_FRAMEWORK} ${COCOA_FRAMEWORK})
+target_link_libraries(issw InputSourceSwitcher)
 
 add_executable(testvim test.c)
 target_link_libraries(testvim InputSourceSwitcher)
