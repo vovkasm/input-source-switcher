@@ -4,11 +4,11 @@ Command line input source switcher for Mac.
 Usage
 -----
 
-    input-source-switch [-h] [-l] [<input-source-id>]
+    issw [-h] [-l] [<input-source-id>]
 
     -h - show help message
     -l - list all selectable input sources
-    -v - print version number
+    -V - print version number
 
     If no arguments, show current input source
     If <input-source-id> - select specified input source
