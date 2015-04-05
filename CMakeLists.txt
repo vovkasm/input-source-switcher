@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 project(InputSourceSwitcher)
 
 set(InputSourceSwitcher_VERSION_MAJOR 0)
-set(InputSourceSwitcher_VERSION_MINOR 1)
+set(InputSourceSwitcher_VERSION_MINOR 2)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
