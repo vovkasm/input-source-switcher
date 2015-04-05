@@ -8,7 +8,7 @@ option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
 find_library(CARBON_FRAMEWORK Carbon)
 if(NOT CARBON_FRAMEWORK)
-    message(FATAL_ERROR "Carbon not found")
+    message(FATAL_ERROR "Carbon framework is not found")
 endif()
 
 find_library(COREFOUNDATION_FRAMEWORK CoreFoundation)
