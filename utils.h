@@ -1,5 +1,8 @@
 #pragma once
-#include "pre.h"
+
+#include <Carbon/Carbon.h>
+#include <CoreFoundation/CoreFoundation.h>
+
 #include <string>
 
 std::string stringFromCFString(CFStringRef cfStr);

@@ -1,4 +1,6 @@
-#include "pre.h"
+#include <Carbon/Carbon.h>
+#include <CoreFoundation/CoreFoundation.h>
+
 #include <iostream>
 #include <sstream>
 

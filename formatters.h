@@ -1,5 +1,7 @@
 #pragma once
-#include "pre.h"
+
+#include <Carbon/Carbon.h>
+
 #include <iosfwd>
 
 class InputSourceFormatter {
