@@ -40,9 +40,6 @@ set(APP_SOURCES
     main.cpp
     )
 
-source_group(Headers FILES ${APP_HEADERS})
-source_group(Sources FILES ${APP_SOURCES})
-
 add_library(InputSourceSwitcher ${LIB_SOURCES} ${LIB_HEADERS})
 target_link_libraries(InputSourceSwitcher ${APPKIT_FRAMEWORK} ${CARBON_FRAMEWORK} ${COCOA_FRAMEWORK})
 
