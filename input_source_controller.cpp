@@ -118,6 +118,9 @@ extern "C" {
     static char buffer[1024];
 
     const char* Xkb_Switch_getXkbLayout(const char* /* unused */) {
+        // Hack to update current input source for programs that do not use standard runloop (MacVim in console mode for ex)
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, false);
+
         buffer[0] = '\0';
         try {
             InputSourceController ctrl;
