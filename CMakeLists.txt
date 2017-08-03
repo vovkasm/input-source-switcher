@@ -24,10 +24,12 @@ set(LIB_HEADERS
     issw_config.h
     ISSWController.h
     ISSWInputSource.h
+    ISSWIO.h
     )
 set(LIB_SOURCES
-    ISSWController.mm
+    ISSWController.m
     ISSWInputSource.m
+    ISSWIO.m
     )
 
 set(APP_HEADERS

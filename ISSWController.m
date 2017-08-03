@@ -1,9 +1,8 @@
 #import "ISSWController.h"
 #import "ISSWInputSource.h"
+#import "ISSWIO.h"
 
 @import Carbon;
-
-void ISSWPrint(NSString* format, ...) NS_FORMAT_FUNCTION(1,2) NS_NO_TAIL_CALL;
 
 @implementation ISSWController
 
@@ -86,42 +85,30 @@ void ISSWPrint(NSString* format, ...) NS_FORMAT_FUNCTION(1,2) NS_NO_TAIL_CALL;
 
 @end
 
-void ISSWPrint(NSString* format, ...) {
-    va_list args;
-    va_start(args, format);
-    NSString* outString = [[NSString alloc] initWithFormat:format arguments:args];
-    va_end(args);
+// vim-xkbswitch interface
+static char buffer[1024];
 
-    [[NSFileHandle fileHandleWithStandardOutput] writeData:[outString dataUsingEncoding:NSUTF8StringEncoding]];
+const char* Xkb_Switch_getXkbLayout(const char* name) {
+    @autoreleasepool {
+        // Hack to update current input source for programs that do not use standard runloop (MacVim in console mode for ex)
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, false);
+
+        buffer[0] = '\0';
+        ISSWController* ctrl = [[ISSWController alloc] init];
+        ISSWInputSource* source = [ctrl currentSource];
+
+        [source.sourceID getCString:buffer maxLength:1024 encoding:NSUTF8StringEncoding];
+        
+        return buffer;
+    }
 }
 
-// vim-xkbswitch interface
-extern "C" {
-    static char buffer[1024];
+const char* Xkb_Switch_setXkbLayout(const char* name) {
+    @autoreleasepool {
+        ISSWController* ctrl = [[ISSWController alloc] init];
 
-    const char* Xkb_Switch_getXkbLayout(const char* /* unused */) {
-        @autoreleasepool {
-            // Hack to update current input source for programs that do not use standard runloop (MacVim in console mode for ex)
-            CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, false);
+        [ctrl selectSource:[NSString stringWithCString:name encoding:NSUTF8StringEncoding]];
 
-            buffer[0] = '\0';
-            ISSWController* ctrl = [[ISSWController alloc] init];
-            ISSWInputSource* source = [ctrl currentSource];
-
-            [source.sourceID getCString:buffer maxLength:1024 encoding:NSUTF8StringEncoding];
-            
-            return buffer;
-        }
-    }
-
-    const char* Xkb_Switch_setXkbLayout(const char* newgrp) {
-        @autoreleasepool {
-            ISSWController* ctrl = [[ISSWController alloc] init];
-
-            NSString* inputName = [NSString stringWithCString:newgrp encoding:NSUTF8StringEncoding];
-            [ctrl selectSource:inputName];
-
-            return NULL;
-        }
+        return NULL;
     }
 }
