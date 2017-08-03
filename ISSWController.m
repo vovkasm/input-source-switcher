@@ -72,7 +72,7 @@
     NSMutableArray* list = [NSMutableArray array];
 
     CFArrayRef origList = TISCreateInputSourceList((__bridge CFDictionaryRef)filter, false);
-    if (list == nil) return list;
+    if (origList == nil) return list;
     CFIndex origListCount = CFArrayGetCount(origList);
     for (CFIndex i = 0; i < origListCount; ++i) {
         TISInputSourceRef origSource = (TISInputSourceRef)CFArrayGetValueAtIndex(origList, i);
