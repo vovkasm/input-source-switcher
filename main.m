@@ -1,12 +1,9 @@
-#include <unistd.h>
-#include <iostream>
-#include <string>
-
 #include <Carbon/Carbon.h>
 
 #include "issw_config.h"
 
 #import "ISSWController.h"
+#import "ISSWIO.h"
 
 enum RunMode { RM_showSelected, RM_listAvailable, RM_showUsage, RM_showVersion, RM_skip };
 
@@ -17,7 +14,7 @@ main(int argc, char* argv[]) {
         //
         ReceiveNextEvent(0, NULL, 0, 0, NULL);
 
-        RunMode runMode = RM_showSelected;
+        enum RunMode runMode = RM_showSelected;
 
         int ch;
 
@@ -50,7 +47,7 @@ main(int argc, char* argv[]) {
                 }
             }
             else {
-                std::cerr << "Error: too many arguments" << std::endl;
+                ISSWPrintError(@"Error: too many arguments\n");
                 runMode = RM_showUsage;
             }
         }
@@ -63,10 +60,10 @@ main(int argc, char* argv[]) {
                 [newCtrl listAvailableSources];
                 break;
             case RM_showUsage:
-                std::cout << "Usage: issw [-hlV] [<input-source-id>]" << std::endl;
+                ISSWPrint(@"Usage: issw [-hlV] [<input-source-id>]\n");
                 break;
             case RM_showVersion:
-                std::cout << "Input Source Switcher version " << InputSourceSwitcher_VERSION_MAJOR << "." << InputSourceSwitcher_VERSION_MINOR << std::endl;
+                ISSWPrint(@"Input Source Switcher version %d.%d\n", InputSourceSwitcher_VERSION_MAJOR, InputSourceSwitcher_VERSION_MINOR);
                 break;
             case RM_skip:
                 break;

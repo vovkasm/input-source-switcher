@@ -35,7 +35,7 @@ set(LIB_SOURCES
 set(APP_HEADERS
     )
 set(APP_SOURCES
-    main.mm
+    main.m
     )
 
 add_library(InputSourceSwitcher ${LIB_SOURCES} ${LIB_HEADERS})
