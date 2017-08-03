@@ -21,24 +21,25 @@ configure_file(
 include_directories("${PROJECT_BINARY_DIR}")
 
 set(LIB_HEADERS
-    formatters.h
     issw_config.h
-    input_source_controller.h
-    utils.h
+    ISSWController.h
+    ISSWInputSource.h
+    ISSWIO.h
     )
 set(LIB_SOURCES
-    formatters.cpp
-    input_source_controller.cpp
-    utils.cpp
+    ISSWController.m
+    ISSWInputSource.m
+    ISSWIO.m
     )
 
 set(APP_HEADERS
     )
 set(APP_SOURCES
-    main.cpp
+    main.m
     )
 
 add_library(InputSourceSwitcher ${LIB_SOURCES} ${LIB_HEADERS})
+target_compile_options(InputSourceSwitcher PUBLIC -fmodules -fcxx-modules -fobjc-arc)
 target_link_libraries(InputSourceSwitcher ${COREFOUNDATION_FRAMEWORK} ${CARBON_FRAMEWORK})
 
 add_executable(issw ${APP_SOURCES} ${APP_HEADERS} ${LIB_HEADERS})
