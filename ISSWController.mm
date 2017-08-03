@@ -100,24 +100,28 @@ extern "C" {
     static char buffer[1024];
 
     const char* Xkb_Switch_getXkbLayout(const char* /* unused */) {
-        // Hack to update current input source for programs that do not use standard runloop (MacVim in console mode for ex)
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, false);
+        @autoreleasepool {
+            // Hack to update current input source for programs that do not use standard runloop (MacVim in console mode for ex)
+            CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, false);
 
-        buffer[0] = '\0';
-        ISSWController* ctrl = [[ISSWController alloc] init];
-        ISSWInputSource* source = [ctrl currentSource];
+            buffer[0] = '\0';
+            ISSWController* ctrl = [[ISSWController alloc] init];
+            ISSWInputSource* source = [ctrl currentSource];
 
-        [source.sourceID getCString:buffer maxLength:1024 encoding:NSUTF8StringEncoding];
-
-        return buffer;
+            [source.sourceID getCString:buffer maxLength:1024 encoding:NSUTF8StringEncoding];
+            
+            return buffer;
+        }
     }
 
     const char* Xkb_Switch_setXkbLayout(const char* newgrp) {
-        ISSWController* ctrl = [[ISSWController alloc] init];
+        @autoreleasepool {
+            ISSWController* ctrl = [[ISSWController alloc] init];
 
-        NSString* inputName = [NSString stringWithCString:newgrp encoding:NSUTF8StringEncoding];
-        [ctrl selectSource:inputName];
+            NSString* inputName = [NSString stringWithCString:newgrp encoding:NSUTF8StringEncoding];
+            [ctrl selectSource:inputName];
 
-        return NULL;
+            return NULL;
+        }
     }
 }
