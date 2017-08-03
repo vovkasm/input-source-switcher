@@ -2,8 +2,11 @@
 #include <iostream>
 #include <string>
 
+#include <Carbon/Carbon.h>
+
 #include "issw_config.h"
-#include "input_source_controller.h"
+
+#import "ISSWController.h"
 
 enum RunMode { RM_showSelected, RM_listAvailable, RM_showUsage, RM_showVersion, RM_skip };
 
@@ -32,18 +35,17 @@ main(int argc, char* argv[]) {
                     runMode = RM_showUsage;
             }
         }
-        InputSourceController ctrl;
+
+        ISSWController* newCtrl = [[ISSWController alloc] init];
 
         if (optind < argc) {
             argc -= optind;
             argv += optind;
             if (argc == 1) {
-                try {
-                    ctrl.select(std::string(argv[0]));
+                BOOL res = [newCtrl selectSource:[NSString stringWithCString:argv[0] encoding:NSUTF8StringEncoding]];
+                if (res) {
                     runMode = RM_showSelected;
-                }
-                catch (program_error& e) {
-                    std::cerr << e.what() << std::endl;
+                } else {
                     runMode = RM_showUsage;
                 }
             }
@@ -55,10 +57,10 @@ main(int argc, char* argv[]) {
 
         switch (runMode) {
             case RM_showSelected:
-                ctrl.showSelected();
+                [newCtrl showCurrentSource];
                 break;
             case RM_listAvailable:
-                ctrl.listAvailable();
+                [newCtrl listAvailableSources];
                 break;
             case RM_showUsage:
                 std::cout << "Usage: issw [-hlV] [<input-source-id>]" << std::endl;
