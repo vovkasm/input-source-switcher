@@ -27,15 +27,15 @@ set(LIB_HEADERS
     utils.h
     )
 set(LIB_SOURCES
-    formatters.cpp
-    input_source_controller.cpp
-    utils.cpp
+    formatters.mm
+    input_source_controller.mm
+    utils.mm
     )
 
 set(APP_HEADERS
     )
 set(APP_SOURCES
-    main.cpp
+    main.mm
     )
 
 add_library(InputSourceSwitcher ${LIB_SOURCES} ${LIB_HEADERS})
