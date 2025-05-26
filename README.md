@@ -24,10 +24,9 @@ How to build
 
     git clone https://github.com/vovkasm/input-source-switcher.git
     cd input-source-switcher
-    mkdir build && cd build
-    cmake ..
-    make
-    make install
+    cmake -B build
+    cmake --build build
+    cmake --install build
 
 How to develop with Xcode
 -------------------------
@@ -46,4 +45,3 @@ Licensing
 ---------
 
 This projected is licensed under the terms of the MIT license.
-

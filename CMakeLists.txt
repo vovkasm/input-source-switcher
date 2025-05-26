@@ -1,8 +1,11 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.28)
 project(InputSourceSwitcher)
 
 set(InputSourceSwitcher_VERSION_MAJOR 0)
 set(InputSourceSwitcher_VERSION_MINOR 3)
+
+set(CMAKE_MACOSX_RPATH ON)
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
