@@ -5,7 +5,7 @@ set(InputSourceSwitcher_VERSION_MAJOR 0)
 set(InputSourceSwitcher_VERSION_MINOR 3)
 
 set(CMAKE_MACOSX_RPATH ON)
-set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+set(CMAKE_INSTALL_RPATH "@loader_path/../lib")
 
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
