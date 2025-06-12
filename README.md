@@ -36,6 +36,11 @@ How to develop with Xcode
     cmake -G Xcode ..
     open InputSourceSwitcher.xcodeproj
 
+Caveats
+-------
+
+There is an old bug in macOS related to handling input sources for CJK languages. If you're using the default APIs, when switching languages from the command line (i.e., without creating a GUI application), the switch won't work correctly for languages with composite input (like Japanese and Chinese). @laishulu has implemented a workaround for this issue in his implementation of a similar utility, available at [https://github.com/laishulu/macism](https://github.com/laishulu/macism). If this issue affects you, it's worth checking out his project.
+
 Author
 ------
 
